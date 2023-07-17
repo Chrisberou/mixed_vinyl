@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class VinylController extends AbstractController
 {
-    #[Route('/')]
+    #[Route('/',name: 'app_homepage')]
     public function homepage():Response
     {
         $tracks=[
@@ -27,17 +27,17 @@ class VinylController extends AbstractController
         
     }
 
-    #[Route('/browse/{slug}')]
+    #[Route('/browse/{slug}',name:'app_browse')]
     public function browse(string $slug=null):Response
     {
-        if($slug){
-            $title=str_replace('-',' ',$slug);
-        }else{
-            $title='all oti na nai'; 
-        }
+       
+        $genre = $slug?$title=str_replace('-',' ',$slug):null;
       
         
-        return new Response($title);
+        return $this->render('vinyl/browse.html.twig',[
+            'genre'=>$genre,
+
+        ]);
 
     }
 }
